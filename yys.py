@@ -3,6 +3,7 @@ import pyautogui
 import random
 import time
 import traceback
+import os
 from PIL import ImageGrab
 
 import action
@@ -12,7 +13,7 @@ imgs = action.load_imgs()
 pyautogui.PAUSE = 0.1
 
 start_time = time.time()
-print('程序启动，现在时间', time.ctime())
+print(time.ctime(), '[INFO]: Starting')
 
 
 # 以上启动，载入设置
@@ -32,20 +33,41 @@ def log(f):
 
 @log
 def select_mode():
-    print('''\n菜单：  鼠标移动到最右侧中止并返回菜单页面, 
-        1 结界自动合卡，自动选择前三张合成 
-        2 自动通关魂十，自动接受组队并确认通关
-        3 自动通关业原火，单刷
-        4 自动刷组队狗粮（打手模式），          
-        5 单刷探索副本，无法区分经验BUFF
+    print('''\n功能选择：
+        0 防呆模式          安全退出程序
+        1 测试模式          测试模式
+        2 结界卡合成        默认前三张合成 
+        3 魂十模式          自动接受组队并确认通关
+        4 业原火模式        单刷
+        5 狗粮模式          打手          
+        6 探索副本模式      单刷
+        \n鼠标移动到最右侧中止并返回菜单页面
         ''')
-    action.alarm(1)
-    raw = input("选择功能模式：")
+    # action.alarm(1)
+    raw = input("选择功能（输入数字，例如：0）：")
     index = int(raw)
 
-    mode = [0, card, yuhun, yeyuanhuo, goliang, solo]
+    mode = [foolProofing, test, card, yuhun, yeyuanhuo, gouliang, solo]
     comand = mode[index]
     comand()
+
+#########################################################
+# 防呆模式
+def foolProofing():
+    print(time.ctime(), '[INFO]: just for you, cute baby!')
+    time.sleep(0.1)
+
+##########################################################
+# Test
+def test():
+    print(time.ctime(), '[INFO]: run successfully!')
+    time.sleep(0.1)
+    while True:
+        # 鼠标移到最右侧中止
+        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
+            select_mode()
+        time.sleep(1)
+        print('sleep 1s')
 
 
 ##########################################################
@@ -53,7 +75,7 @@ def select_mode():
 def card():
     while True:
         # 鼠标移到右侧中止
-        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.7:
+        if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
             select_mode()
 
         x, y, z = (370, 238), (384, 385), (391, 525)  # 前三张卡的位置
@@ -84,7 +106,7 @@ def yuhun():
         c, d = downright
         screen = screen[b:d, a:c]
 
-        print('screen shot ok', time.ctime())
+        print(time.ctime(), '[INFO]: screen shot success')
 
         # 设定目标，开始查找
         # 这里是自动接受组队
@@ -144,7 +166,7 @@ def yeyuanhuo():
         c, d = downright
         screen = screen[b:d, a:c]
 
-        print('screen shot ok', time.ctime())
+        print(time.ctime(), '[INFO]: screen shot success')
 
         # 设定目标，开始查找
 
@@ -166,7 +188,7 @@ def yeyuanhuo():
 
 ########################################################
 # 狗粮通关
-def goliang():
+def gouliang():
     while True:  # 直到取消，或者出错
         if pyautogui.position()[0] >= pyautogui.size()[0] * 0.98:
             select_mode()
