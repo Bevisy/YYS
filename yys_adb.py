@@ -1,17 +1,19 @@
-import cv2,numpy,time,random
-import os,sys,traceback
-from PIL import ImageGrab
+import traceback
+
+import cv2
+import time
+import pyautogui
+
 import action_adb as action
 
 # 读取文件 精度控制   显示名字
 imgs = action.load_imgs()
 
-
 start_time = time.time()
 print('程序启动，现在时间', time.ctime())
 
 
-#以上启动，载入设置
+# 以上启动，载入设置
 ##########################################################
 
 def log(f):
@@ -24,6 +26,7 @@ def log(f):
             time.sleep(60)
 
     return wrap
+
 
 @log
 def select_mode():
@@ -42,44 +45,45 @@ def select_mode():
     comand = mode[index]
     comand()
 
+
 ##########################################################
-#合成结界卡，较简单，未偏移直接点
+# 合成结界卡，较简单，未偏移直接点
 def card():
-    while True:            
-        x, y, z = (370, 238), (384, 385), (391, 525)  #前三张卡的位置
-        zz = (871, 615)               #合成按钮位置
-        for i in [x, y, z ,zz]:
+    while True:
+        x, y, z = (370, 238), (384, 385), (391, 525)  # 前三张卡的位置
+        zz = (871, 615)  # 合成按钮位置
+        for i in [x, y, z, zz]:
             pyautogui.click(i)
             time.sleep(0.1)
         time.sleep(0.5)
 
 
 ########################################################
-#魂十通关
+# 魂十通关
 def yuhun():
-    while True :
+    while True:
         screen = action.screen_shot()
         screen = cv2.imread('screen.jpg')
 
-        #截屏，并裁剪以加速
+        # 截屏，并裁剪以加速
         upleft = (0, 0)
-        downright = (2550, 770) 
-        print('screen shot ok',time.ctime())
-        
-        #设定目标，开始查找
-        #这里是自动接受组队
-        for i in ['jieshou2',"jieshou"]:
+        downright = (2550, 770)
+        print('screen shot ok', time.ctime())
+
+        # 设定目标，开始查找
+        # 这里是自动接受组队
+        for i in ['jieshou2', "jieshou"]:
             want = imgs[i]
             size = want[0].shape
-            h, w , ___ = size
-            x1,x2 = upleft, (430, 358)
+            h, w, ___ = size
+            x1, x2 = upleft, (430, 358)
             target = action.cut(screen, x1, x2)
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 print('接受组队')
                 xx = pts[0]
                 xx = action.cheat(xx, w, h)
-                if xx[0] > 120:           
+                if xx[0] > 120:
                     action.touch(xx)
                     action.wait()
                     break
@@ -87,13 +91,13 @@ def yuhun():
                     pass
                 continue
 
-        #自动点击通关结束后的页面
-        for i in ['ying','jiangli','kaishi','jixu' ]:
+        # 自动点击通关结束后的页面
+        for i in ['ying', 'jiangli', 'kaishi', 'jixu']:
             want = imgs[i]
             size = want[0].shape
-            h, w , ___ = size
+            h, w, ___ = size
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 for pt in pts:
                     pt = action.cheat(pt, w, h)
@@ -102,27 +106,28 @@ def yuhun():
                 break
     select_mode()
 
+
 ########################################################
-#业原火通关
+# 业原火通关
 def yeyuanhuo():
-    while True :   #直到取消，或者出错
+    while True:  # 直到取消，或者出错
         screen = action.screen_shot()
         screen = cv2.imread('screen.jpg')
 
-        #截屏，并裁剪以加速
+        # 截屏，并裁剪以加速
         upleft = (0, 0)
         downright = (1426, 798)
-        print('screen shot ok',time.ctime())
-        
-        #设定目标，开始查找
+        print('screen shot ok', time.ctime())
 
-        #过关
-        for i in ['ying','jiangli','tiaozhan','jixu']:
+        # 设定目标，开始查找
+
+        # 过关
+        for i in ['ying', 'jiangli', 'tiaozhan', 'jixu']:
             want = imgs[i]
             size = want[0].shape
-            h, w , ___ = size
+            h, w, ___ = size
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 for pt in pts:
                     pt = action.cheat(pt, w, h)
@@ -130,46 +135,47 @@ def yeyuanhuo():
                     action.wait()
                 break
 
+
 ########################################################
-#狗粮通关
+# 狗粮通关
 def goliang():
-    while True:   #直到取消，或者出错
+    while True:  # 直到取消，或者出错
         screen = action.screen_shot()
         screen = cv2.imread('screen.jpg')
 
-        #截屏，并裁剪以加速
+        # 截屏，并裁剪以加速
         upleft = (0, 0)
         downright = (1358, 768)
         downright2 = (2550, 768)
-        print('screen shot ok',time.ctime())
-        
-        #设定目标，开始查找
-        #进入后
-        want=imgs['guding']
+        print('screen shot ok', time.ctime())
+
+        # 设定目标，开始查找
+        # 进入后
+        want = imgs['guding']
 
         x1 = (785, 606)
         x2 = downright
         target = action.cut(screen, x1, x2)
-        pts = action.locate(target,want,0)
+        pts = action.locate(target, want, 0)
         if not len(pts) == 0:
             print('正在地图中')
-            
+
             want = imgs['xiao']
-            x1,x2 = (5, 405), (119, 560)
+            x1, x2 = (5, 405), (119, 560)
             target = action.cut(screen, x1, x2)
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 print('组队状态中')
             else:
                 print('退出重新组队')
-                
+
                 for i in ['queren', 'tuichu']:
                     want = imgs[i]
                     size = want[0].shape
-                    h, w , ___ = size
-                    x1,x2 = upleft, (965, 522)
+                    h, w, ___ = size
+                    x1, x2 = upleft, (965, 522)
                     target = action.cut(screen, x1, x2)
-                    pts = action.locate(target,want,0)
+                    pts = action.locate(target, want, 0)
                     if not len(pts) == 0:
                         print('退出中')
                         try:
@@ -184,61 +190,62 @@ def goliang():
 
         want = imgs['jieshou']
         size = want[0].shape
-        h, w , ___ = size
-        x1,x2 = upleft, (250, 380)
+        h, w, ___ = size
+        x1, x2 = upleft, (250, 380)
         target = action.cut(screen, x1, x2)
-        pts = action.locate(target,want,0)
+        pts = action.locate(target, want, 0)
         if not len(pts) == 0:
             print('接受组队')
             xx = pts[0]
             xx = action.cheat(xx, w, h)
-            if xx[0] > 120:           
+            if xx[0] > 120:
                 action.touch(xx)
                 action.wait()
             else:
                 pass
             continue
 
-        for i in ['ying','jiangli','jixu']:
+        for i in ['ying', 'jiangli', 'jixu']:
             want = imgs[i]
             size = want[0].shape
-            h, w , ___ = size
+            h, w, ___ = size
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 print('领取奖励')
-                xy = action.cheat(pts[0], w, h-10 )
+                xy = action.cheat(pts[0], w, h - 10)
                 action.touch(xy)
                 action.wait()
                 break
 
+
 ########################################################
-#单人探索
+# 单人探索
 def solo():
-    while True:   #直到取消，或者出错
+    while True:  # 直到取消，或者出错
         screen = action.screen_shot()
         screen = cv2.imread('screen.jpg')
 
-        #截屏，并裁剪以加速
+        # 截屏，并裁剪以加速
         upleft = (0, 0)
         downright = (1358, 768)
         downright2 = (2550, 768)
-        print('screen shot ok',time.ctime())
-        
-        #设定目标，开始查找
-        #进入后
+        print('screen shot ok', time.ctime())
+
+        # 设定目标，开始查找
+        # 进入后
         want = imgs['guding']
 
         x1 = (785, 606)
         x2 = downright
         target = action.cut(screen, x1, x2)
-        pts = action.locate(target,want,0)
+        pts = action.locate(target, want, 0)
         if not len(pts) == 0:
             print('正在地图中')
-            
+
             want = imgs['left']
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 right = (854, 527)
                 right = action.cheat(right, 10, 10)
@@ -248,10 +255,10 @@ def solo():
 
             want = imgs['jian']
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 print('点击小怪')
-                xx = action.cheat(pts[0], 10, 10)        
+                xx = action.cheat(pts[0], 10, 10)
                 action.touch(xx)
                 time.sleep(0.5)
                 continue
@@ -259,10 +266,10 @@ def solo():
                 for i in ['queren', 'tuichu']:
                     want = imgs[i]
                     size = want[0].shape
-                    h, w , ___ = size
-                    x1,x2 = upleft, (965, 522)
+                    h, w, ___ = size
+                    x1, x2 = upleft, (965, 522)
                     target = action.cut(screen, x1, x2)
-                    pts = action.locate(target,want,0)
+                    pts = action.locate(target, want, 0)
                     if not len(pts) == 0:
                         print('退出中')
                         try:
@@ -275,35 +282,33 @@ def solo():
                         break
                 continue
 
-        for i in ['ying','jiangli','jixu']:
+        for i in ['ying', 'jiangli', 'jixu']:
             want = imgs[i]
             size = want[0].shape
-            h, w , ___ = size
+            h, w, ___ = size
             target = screen
-            pts = action.locate(target,want,0)
+            pts = action.locate(target, want, 0)
             if not len(pts) == 0:
                 print('领取奖励')
-                xy = action.cheat(pts[0], w, h-10 )
+                xy = action.cheat(pts[0], w, h - 10)
                 action.touch(xy)
                 action.wait()
                 break
 
         want = imgs['tansuo']
         size = want[0].shape
-        h, w , ___ = size
+        h, w, ___ = size
         target = screen
-        pts = action.locate(target,want,0)
+        pts = action.locate(target, want, 0)
         if not len(pts) == 0:
             print('进入地图')
-            xy = action.cheat(pts[0], w, h-10 )
+            xy = action.cheat(pts[0], w, h - 10)
             action.touch(xy)
             action.wait()
+
 
 ####################################################
 
 
-
-
 if __name__ == '__main__':
     select_mode()
-
