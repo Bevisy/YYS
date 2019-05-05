@@ -1,4 +1,3 @@
-import sys
 import time
 import pyautogui
 
@@ -11,12 +10,12 @@ def selectMode():
     print('''\n功能选择：
         0 防呆模式          安全退出程序
         1 测试模式          测试模式
-        2 刷困难金币        离岛活动
+        2 重复点击模式      重复点击固定范围（默认间隔3s）
         ''')
     raw = input("选择功能（输入数字，例如：0）：")
     index = int(raw)
 
-    mode = [foolProofing, testMode, goldCoin]
+    mode = [foolProofing, testMode, loopClick]
     comand = mode[index]
     comand()
 
@@ -42,10 +41,16 @@ def testMode():
         print('\n')
 
 
-def goldCoin():
+def loopClick():
     try:
+        buttonx = 1300
+        buttony = 780
         while True:
-            pass # 活动操作逻辑
+            for i in range(buttonx, buttonx+2, 1):
+                for j in range(buttony, buttony+2, 1):
+                    pyautogui.click(i, j)
+                    print("click ({x}, {y})".format(x=i, y=j))
+                    time.sleep(3)
     except KeyboardInterrupt:
         print('\n')
 
