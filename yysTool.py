@@ -29,12 +29,12 @@ def foolProofing():
 
 def testMode():
     try:
-        img = pyautogui.screenshot()
+        pyautogui.screenshot()
         chromeX, chromeY = pyautogui.locateCenterOnScreen('chrome/icon.png')
         pyautogui.click(chromeX, chromeY)
         time.sleep(1)
 
-        img = pyautogui.screenshot()
+        pyautogui.screenshot()
         chromeX, chromeY = pyautogui.locateCenterOnScreen('chrome/close.png')
         pyautogui.click(chromeX, chromeY)
     except KeyboardInterrupt:
