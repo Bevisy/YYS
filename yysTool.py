@@ -1,5 +1,6 @@
 import time
 import pyautogui
+import random
 
 
 pyautogui.FAILSAFE = True # 默认为 False
@@ -43,14 +44,16 @@ def testMode():
 
 def loopClick():
     try:
-        buttonx = 1300
-        buttony = 780
+        button_x = 745
+        button_y = 221
         while True:
-            for i in range(buttonx, buttonx+2, 1):
-                for j in range(buttony, buttony+2, 1):
-                    pyautogui.click(i, j)
-                    print("click ({x}, {y})".format(x=i, y=j))
-                    time.sleep(3)
+            rand_x = random.randint(0, 2)
+            rand_y = random.randint(0, 2)
+            click_x = button_x + rand_x
+            click_y = button_y + rand_y
+            pyautogui.click(click_x, click_y)
+            time.sleep(2)
+            print("click({x}, {y})".format(x = click_x, y = click_y))
     except KeyboardInterrupt:
         print('\n')
 
