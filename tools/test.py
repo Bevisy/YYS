@@ -22,5 +22,5 @@ if __name__ == "__main__":
     # pyautogui.prompt('input message:') # request user input message
 
     # pyautogui.screenshot('foo.jpg') # snapshot and save to current dir
-    
-    pyautogui.locateOnScreen('screen.jpg')
+
+    print(pyautogui.locateOnScreen('images/1.png'))

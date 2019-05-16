@@ -1,62 +1,52 @@
 import time
 import pyautogui
 import random
+import sys
 
 
-pyautogui.FAILSAFE = True # 默认为 False
-pyautogui.PAUSE = 0.5 # 默认为 0.1s
+class Tools(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    # show current time
+    def current_time():
+        # time format: May 08 01:58:45
+        return time.strftime("%b %d %H:%M:%S", time.localtime())
+
+    # log output
+    def log(self, message):
+        print(self.current_time() + " - " + message)
+
+    def rand_click(self, x, y, random_range=5):
+        rand_x = random.randint(0, random_range)
+        rand_y = random.randint(0, random_range)
+        pyautogui.click(x + rand_x, y + rand_y)
+        self.log("click ({0}, {1})".format(x, y))
+
+    def one_click(self, x, y):
+        self.rand_click(x, y)
+
+    def loop_click(self, x, y, sleep_time=1):
+        try:
+            while True:
+                self.rand_click(x, y)
+                time.sleep(sleep_time)
+        except KeyboardInterrupt:
+            self.log("loop click exited!\n")
+
+    def ident_click(self, image_path):
+        try:
+            x, y = pyautogui.locateCenterOnScreen(image_path)
+
+            self.rand_click(x, y)
+        except KeyboardInterrupt:
+            self.log("identification click exited!\n")
 
 
-def selectMode():
-    print('''\n功能选择：
-        0 防呆模式          安全退出程序
-        1 测试模式          测试模式
-        2 重复点击模式      重复点击固定范围（默认间隔3s）
-        ''')
-    raw = input("选择功能（输入数字，例如：0）：")
-    index = int(raw)
-
-    mode = [foolProofing, testMode, loopClick]
-    comand = mode[index]
-    comand()
-
-
-def foolProofing():
-    try:
-        print(time.ctime(), '[INFO]: just for you, cute boy!')
-    except KeyboardInterrupt:
-        print('\n')
-
-
-def testMode():
-    try:
-        img = pyautogui.screenshot()
-        chromeX, chromeY = pyautogui.locateCenterOnScreen('chrome/icon.png')
-        pyautogui.click(chromeX, chromeY)
-        time.sleep(1)
-
-        img = pyautogui.screenshot()
-        chromeX, chromeY = pyautogui.locateCenterOnScreen('chrome/close.png')
-        pyautogui.click(chromeX, chromeY)
-    except KeyboardInterrupt:
-        print('\n')
-
-
-def loopClick():
-    try:
-        button_x = 745
-        button_y = 221
-        while True:
-            rand_x = random.randint(0, 2)
-            rand_y = random.randint(0, 2)
-            click_x = button_x + rand_x
-            click_y = button_y + rand_y
-            pyautogui.click(click_x, click_y)
-            time.sleep(2)
-            print("click({x}, {y})".format(x = click_x, y = click_y))
-    except KeyboardInterrupt:
-        print('\n')
-
+pyautogui.FAILSAFE = True  # 默认为 False
+pyautogui.PAUSE = 0.5  # 默认为 0.1s
 
 if __name__ == "__main__":
-    selectMode()
+    op = Tools()
+    op.loop_click(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
