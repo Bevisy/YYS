@@ -22,7 +22,7 @@ class Tools(object):
         rand_x = random.randint(0, random_range)
         rand_y = random.randint(0, random_range)
         pyautogui.click(x + rand_x, y + rand_y)
-        self.log("click ({0}, {1})".format(x, y))
+        self.log("click ({0}, {1})".format(x + rand_x, y + rand_y))
 
     def one_click(self, x, y):
         self.rand_click(x, y)
