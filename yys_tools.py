@@ -18,11 +18,11 @@ class Tools(object):
     def log(self, message):
         print(self.current_time() + " - " + message)
 
-    def rand_click(self, x, y, random_range=5):
-        rand_x = random.randint(0, random_range)
-        rand_y = random.randint(0, random_range)
-        pyautogui.click(x + rand_x, y + rand_y)
-        self.log("click ({0}, {1})".format(x + rand_x, y + rand_y))
+    def rand_click(self, x, y, random_range=2):
+        rand_x = x + random.randint(-random_range, random_range)
+        rand_y = y + random.randint(-random_range, random_range)
+        pyautogui.click(rand_x, rand_y)
+        self.log("click ({0}, {1})".format(rand_x, rand_y))
 
     def one_click(self, x, y):
         self.rand_click(x, y)
