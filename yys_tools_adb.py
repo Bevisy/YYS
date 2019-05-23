@@ -88,7 +88,7 @@ class Tools(object):
     def yaoqi(self):
         try:
             while True:
-                time.sleep(1)
+                time.sleep(2)
                 self.screenshot_adb("screen.png")
                 if self.is_exists("screen.png", "images/zudui.png"):
                     self.ident_click("screen.png", "images/zudui.png")
@@ -111,7 +111,8 @@ class Tools(object):
                     time.sleep(0.1)
                     self.log("jiesuan")
                 else:
-                    time.sleep(2)
+                    time.sleep(3)
+                    self.log("continue...")
         except KeyboardInterrupt:
             self.log("Exited!")
 
