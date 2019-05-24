@@ -53,7 +53,6 @@ class Tools(object):
                 center_x = int(center[0])
                 center_y = int(center[1])
                 self.rand_click(center_x, center_y)
-                self.log("click ({0}, {1})".format(center_x, center_y))
         except KeyboardInterrupt:
             self.log("Ctrl-C Exited.")
 
@@ -66,7 +65,8 @@ class Tools(object):
         if position is None:
             return False
         else:
-            return tuple([int(position['result'][0]), int(position['result'][1])])
+            # return tuple([int(position['result'][0]), int(position['result'][1])])
+            return True
 
     # Android Simulator 截图并取回本地
     @staticmethod
