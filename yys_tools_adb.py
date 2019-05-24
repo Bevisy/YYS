@@ -97,6 +97,9 @@ class Tools(object):
                 elif self.is_exists("screen.png", "images/zhunbei.png"):
                     self.ident_click("screen.png", "images/zhunbei.png")
                     self.log("点击准备开始")
+                elif self.is_exists("screen.png", "images/shengli.png"):
+                    self.ident_click("screen.png", "images/shengli.png")
+                    self.log("结算过场动画")
                 elif self.is_exists("screen.png", "images/jiesuan.png"):
                     self.ident_click("screen.png", "images/jiesuan.png")
                     self.log("结算并退出")
