@@ -7,8 +7,8 @@ import pyautogui
 
 class Tools(object):
     def __init__(self):
-        self.SCREEN_X = 1440
-        self.SCREEN_Y = 728
+        self.SCREEN_X = 1024
+        self.SCREEN_Y = 640
         os.system("adb kill-server && adb server && adb devices")
 
     @staticmethod
