@@ -116,6 +116,7 @@ class Tools(object):
         except KeyboardInterrupt:
             self.log("Exited!")
 
+
 if __name__ == "__main__":
     op = Tools()
     # op.loop_click(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
