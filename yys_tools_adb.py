@@ -3,6 +3,7 @@ import random
 import os
 import aircv as ac
 import pyautogui
+import sys
 
 
 class Tools(object):
@@ -80,28 +81,29 @@ class Tools(object):
         pyautogui.screenshot(img)
 
     def yao_qi(self):
+        img = "screen.png"
         try:
             while True:
                 time.sleep(random.randint(1, 3))
-                self.screenshot_adb("screen.png")
-                if self.is_exists("screen.png", "images/zudui.png"):
-                    self.ident_click("screen.png", "images/zudui.png")
+                self.screenshot_adb(img)
+                if self.is_exists(img, "images/zudui.png"):
+                    self.ident_click(img, "images/zudui.png")
                     self.log("进入组队页面")
-                elif self.is_exists("screen.png", "images/zidongpipei.png"):
-                    if self.is_exists("screen.png", "images/pipeizhong.png"):
+                elif self.is_exists(img, "images/zidongpipei.png"):
+                    if self.is_exists(img, "images/pipeizhong.png"):
                         self.log("匹配中...")
                         time.sleep(random.randint(5, 10))
                     else:
-                        self.ident_click("screen.png", "images/zidongpipei.png")
+                        self.ident_click(img, "images/zidongpipei.png")
                         self.log("点击自动匹配")
-                elif self.is_exists("screen.png", "images/zhunbei.png"):
-                    self.ident_click("screen.png", "images/zhunbei.png")
+                elif self.is_exists(img, "images/zhunbei.png"):
+                    self.ident_click(img, "images/zhunbei.png")
                     self.log("点击准备开始")
-                elif self.is_exists("screen.png", "images/shengli.png"):
-                    self.ident_click("screen.png", "images/shengli.png")
+                elif self.is_exists(img, "images/shengli.png"):
+                    self.ident_click(img, "images/shengli.png")
                     self.log("结算过场动画")
-                elif self.is_exists("screen.png", "images/jiesuan.png"):
-                    self.ident_click("screen.png", "images/jiesuan.png")
+                elif self.is_exists(img, "images/jiesuan.png"):
+                    self.ident_click(img, "images/jiesuan.png")
                     self.log("结算并退出")
                 else:
                     time.sleep(random.randint(1, 5))
@@ -112,5 +114,7 @@ class Tools(object):
 
 if __name__ == "__main__":
     op = Tools()
-    # op.loop_click(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
-    op.yao_qi()
+    if sys.argv[1] == "loopclick":
+        op.loop_click(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+    elif sys.argv[1] == "yaoqi":
+        op.yao_qi()
