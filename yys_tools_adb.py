@@ -8,8 +8,11 @@ import sys
 
 class Tools(object):
     def __init__(self):
+        # Screen Resolution 1024 x 640
         self.SCREEN_X = 1024
         self.SCREEN_Y = 640
+
+        # connect to Android Simulator
         os.system("adb kill-server && adb server && adb devices")
 
     @staticmethod
@@ -33,11 +36,11 @@ class Tools(object):
         self.rand_click(x, y)
 
     # 重复单击某个给定的点（随机点击操作，范围为2）
-    def loop_click(self, x, y, sleep_time=1):
+    def loop_click(self, x, y, interval=1):
         try:
             while True:
                 self.rand_click(x, y)
-                time.sleep(sleep_time)
+                time.sleep(interval)
         except KeyboardInterrupt:
             self.log("Ctrl-C Exited.")
 
@@ -72,7 +75,11 @@ class Tools(object):
     @staticmethod
     def screenshot_adb(img):
         cmd = "adb exec-out screencap -p > {0}".format(img)
-        os.system(cmd)
+        if os.path.exists(img):
+            os.remove(img)
+            os.system(cmd)
+        else:
+            os.system(cmd)
 
     # 主机屏幕截图
     @staticmethod
@@ -110,10 +117,42 @@ class Tools(object):
         except KeyboardInterrupt:
             self.log("Ctrl-C Exited.")
 
+    # 悬赏请求处理，默认接受
+    def accept_or_refuse_xuanshang(self, img="screen.png", flag=True):
+        if self.is_exists(img, "images/xuanshang.png") and flag:
+            self.ident_click(img, "images/accept_xs.png")
+            self.log("发现悬赏邀请并接受")
+        elif self.is_exists(img, "images/xuanshang.png") and not flag:
+            self.ident_click(img, "images/refuse_xs.png")
+            self.log("发现悬赏要求并拒绝")
+        else:
+            self.log("未收到悬赏任务邀请")
+
+
+# 御灵副本：查询副本门票；选取副本难度；式神录切换；
+def yu_lin(self):
+    pass
+
+
+# 探索副本：单人和组队模式；狗粮自动换取；经验buff；输出式神切换；
+def tan_suo(self):
+    pass
+
+
+# 御魂副本：副本难度选择；单人和组队模式；式神录切换；
+def yu_hun(self):
+    pass
+
+
+# 悬赏任务：每日悬赏任务类型判断；悬赏任务查询数据库；
+def xuan_shang(self):
+    # TODO 考虑使用机器学习来做
+    pass
+
 
 if __name__ == "__main__":
     op = Tools()
-    if sys.argv[1] == "loopclick":
+    if sys.argv[1] == "loop":
         op.loop_click(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
     elif sys.argv[1] == "yaoqi":
         op.yao_qi()
