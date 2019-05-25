@@ -66,7 +66,6 @@ class Tools(object):
         if position is None:
             return False
         else:
-            # return tuple([int(position['result'][0]), int(position['result'][1])])
             return True
 
     # Android Simulator 截图并取回本地
@@ -75,7 +74,7 @@ class Tools(object):
         cmd = "adb exec-out screencap -p > {0}".format(img)
         os.system(cmd)
 
-    # 屏幕截图
+    # 主机屏幕截图
     @staticmethod
     def screenshot(img):
         pyautogui.screenshot(img)
