@@ -96,12 +96,11 @@ class Tools(object):
                     self.ident_click(img, "images/zudui.png")
                     self.log("进入组队页面")
                 elif self.is_exists(img, "images/zidongpipei.png"):
-                    if self.is_exists(img, "images/pipeizhong.png"):
-                        self.log("匹配中...")
-                        time.sleep(random.randint(5, 10))
-                    else:
-                        self.ident_click(img, "images/zidongpipei.png")
-                        self.log("点击自动匹配")
+                    self.ident_click(img, "images/zidongpipei.png")
+                    self.log("点击自动匹配")
+                elif self.is_exists(img, "images/pipeizhong.png"):
+                    self.log("匹配中...")
+                    time.sleep(random.randint(5, 10))
                 elif self.is_exists(img, "images/zhunbei.png"):
                     self.ident_click(img, "images/zhunbei.png")
                     self.log("点击准备开始")
@@ -129,26 +128,75 @@ class Tools(object):
             self.log("未收到悬赏任务邀请")
 
 
-# 御灵副本：查询副本门票；选取副本难度；式神录切换；
-def yu_lin(self):
-    pass
+    # 御灵副本：查询副本门票；选取副本难度；式神录切换；
+    def yu_lin(self):
+        pass
 
 
-# 探索副本：单人和组队模式；狗粮自动换取；经验buff；输出式神切换；
-def tan_suo(self):
-    pass
+    # 探索副本：单人和组队模式；狗粮自动换取；经验buff；输出式神切换；
+    def tan_suo(self):
+        pass
 
 
-# 御魂副本：副本难度选择；单人和组队模式；式神录切换；
-def yu_hun(self):
-    pass
+    # 御魂副本：副本难度选择；单人和组队模式；式神录切换；
+    def yu_hun(self):
+        img = "screen.png"
+        try:
+            while True:
+                if self.is_exists(img, "images/yaoqing.png"):
+                    self.log("等待好友加入队伍...")
+                    time.sleep(random.randint(0, 10)/10)
+                else:
+                    while True:
+                        if self.is_exists(img, "images/yuhun_start.png"):
+                            self.ident_click(img, "images/yunhun_start.png")
+                            self.log("开始战斗")
+                            time.sleep(random.randint(0,10)/10)
+                        elif self.is_exists(img, "images/zhunbei.png"):
+                            self.ident_click(img, "images/zhunbei.png")
+                            self.log("准备开始")
+                            time.sleep(random.randint(0, 20)/10)
+                        elif self.is_exists(img, "images/shengli.png"):
+                            self.ident_click(img, "images/shengli.png")
+                            self.log("结算过场动画")
+                        elif self.is_exists(img, "images/jiesuan.png"):
+                            self.ident_click(img, "images/jiesuan.png")
+                            self.log("结算并退出")
+                            time.sleep(random.randint(0, 10)/10)
+                            break
+                        else:
+                            self.log("等待下一次开始...")
+                            time.sleep(random.randint(0, 10)/10)
+        except KeyboardInterrupt:
+            self.log("Ctrl-C Exited.")
 
 
-# 悬赏任务：每日悬赏任务类型判断；悬赏任务查询数据库；
-def xuan_shang(self):
-    # TODO 考虑使用机器学习来做
-    pass
+    # 悬赏任务：每日悬赏任务类型判断；悬赏任务查询数据库；
+    def xuan_shang(self):
+        # TODO 考虑使用机器学习来做
+        pass
 
+    def ye_yuan_huo(self):
+        img = "screen.png"
+        try:
+            while True:
+                time.sleep(random.randint(1, 3))
+                self.screenshot_adb("screen.png")
+                if self.is_exists(img, "images/yeyuanhuo_tiaozhan.png"):
+                    self.ident_click(img, "images/yeyuanhuo_tiaozhan.png")
+                    self.log("开始挑战")
+                    time.sleep(random.randint(1, 10))
+                elif self.is_exists(img, "images/shengli.png"):
+                    self.ident_click(img, "images/shengli.png")
+                    self.log("结算过场动画")
+                elif self.is_exists(img, "images/jiesuan.png"):
+                    self.ident_click(img, "images/jiesuan.png")
+                    self.log("结算并退出")
+                else:
+                    self.log("等待下一次开始...")
+                    time.sleep(random.randint(5, 10))
+        except KeyboardInterrupt:
+            self.log("Ctrl-C Exited.")
 
 if __name__ == "__main__":
     op = Tools()
@@ -156,3 +204,7 @@ if __name__ == "__main__":
         op.loop_click(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
     elif sys.argv[1] == "yaoqi":
         op.yao_qi()
+    elif sys.argv[1] == "yuhun":
+        op.yu_hun()
+    elif sys.argv[1] == "yeyuanhuo":
+        op.ye_yuan_huo()
